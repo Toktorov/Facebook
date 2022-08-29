@@ -1,0 +1,38 @@
+body{
+    color: gray;
+}
+.center_block{
+    display: flex;
+    align-items: center;
+    justify-content: center !important;
+    flex-direction: column;
+    margin-left: 320px;
+    margin-right: 10px;
+}
+.comment_block{
+    display: flex;
+    align-items: center;
+    justify-content: center !important;
+}
+.line_block{
+    display: grid !important;
+    grid-template-columns: repeat(4,1fr) !important;
+    margin-left: 320px;
+}
+.card{
+    margin: 15px 0;
+}
+.bi{
+    fill: black !important;
+}
+.main{
+    display: flex;
+}
+.comment_form{
+    margin-bottom: 20px;
+    resize: none;
+}
+.flex_block{
+    display: flex;
+    align-items: center;
+}
