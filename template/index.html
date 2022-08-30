@@ -109,8 +109,10 @@
                 <div class="card-body">
                   <a href="{% url 'post_detail' post.id %}" style="text-decoration:none; color: black"><h5 class="card-title">{{ post.title }}</h5></a>
                   <a href="{% url 'post_detail' post.id %}" style="text-decoration:none; color: black"><p class="card-text">{{ post.description|truncatewords:10 }}</p></a>
+                  
                   <a href="#" class="btn btn-primary">Лайк</a>
                   <a href="comment.html" class="btn btn-primary">Коментарии</a>
+                  <a href="comment.html" class="btn btn-secondary">@{{ post.user }}</a>
                 </div>
             </div>
           {% endfor %}

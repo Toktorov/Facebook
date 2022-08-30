@@ -55,6 +55,9 @@
                   <p class="card-text">{{ post.description }}</p>
                   <a href="#" class="btn btn-primary">Лайк</a>
                   <a href="#" class="btn btn-primary">Коментарии</a>
+                  <a class="btn btn-secondary">@{{ post.user }}</a>
+                  <a href="{% url 'post_update' post.id %}" class="btn btn-success">Обновить</a>
+                  <a href="{% url 'post_delete' post.id %}" class="btn btn-danger">Удалить</a>
                 </div>
               </div>
               <div class="card" style="width: 50rem; max-height: 250px;">
