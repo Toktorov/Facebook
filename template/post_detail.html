@@ -53,29 +53,46 @@
                 <div class="card-body">
                   <h5 class="card-title">{{ post.title }}</h5>
                   <p class="card-text">{{ post.description }}</p>
-                  <a href="#" class="btn btn-primary">Лайк</a>
-                  <a href="#" class="btn btn-primary">Коментарии</a>
+                  {% if user.is_authenticated %}
+                  <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name = "like">
+                    <button class="btn btn-primary">Лайк {{ post.post_like.all.count }}</button>
+                  </form>
+                  
+                  <a href="#" class="btn btn-primary">Коментарии {{ post.post_comment.all.count }}</a>
+                  {% endif %}
                   <a class="btn btn-secondary">@{{ post.user }}</a>
+                  {% if user.is_authenticated and request.user == post.user %}
                   <a href="{% url 'post_update' post.id %}" class="btn btn-success">Обновить</a>
                   <a href="{% url 'post_delete' post.id %}" class="btn btn-danger">Удалить</a>
+                  {% endif %}
                 </div>
               </div>
+              {% for comment in post.post_comment.all %}
               <div class="card" style="width: 50rem; max-height: 250px;">
                 <div class="flex_block">
-                <img src="image1.jpg" class="card-img-top" style="width: 70px; padding: 5px;" alt="...">
-                <h5 class="card-title">Имя аккаунта</h5>
-            </div>
+                <img src="{{ comment.user.profile_image.url }}" class="card-img-top" style="width: 70px; padding: 5px;" alt="...">
+                <h5 class="card-title">{{ comment.user }}</h5>
+              </div>
                 <div class="card-body">
-                  <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente temporibus iste assumenda laudantium, ipsum non natus veniam saepe ducimus accusan</p>
+                  <p class="card-text">{{ comment.text }}</p>
+                  <p class="card-text">{{ comment.created }}</p>
                   <a href="#" class="btn btn-primary">Лайк</a>
                   <a href="#" class="btn btn-primary">Ответить на коментарий</a>
                 </div>
               </div>
+              {% endfor %}
+              {% if user.is_authenticated %}
               <div class="form-floating line_form">
-                <textarea class="form-control" style="resize: none;" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
-                <label for="floatingTextarea">Коментарий</label>
-                <a href="#" class="btn btn-success" style="margin-top: 5px;">Оставить коментарий</a>
+                <form method="POST">
+                  {% csrf_token %}
+                  <input type="hidden" name = "comment">
+                  <input type="text" name = "text" class="form-control" placeholder="Комментарий">
+                  <button class="btn btn-success" style="margin-top: 5px;">Оставить коментарий</button>
+                </form>
               </div>
+              {% endif %}
         </div>
       </div>
         <div class="container">

@@ -47,12 +47,16 @@
         </div>
       </nav>
       <div class = "container">
+        {% if user.is_authenticated and request.user == post.user %}
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             
             <h1>Вы точно хотите удалить пост: {{ post.title }}?</h1>
             <button type="submit" class="btn btn-danger">Удалить</button>
           </form>
+        {% else %}
+          <h3>У вас нету прав</h3>
+        {% endif %}
       </div>
       <div class="container">
         <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">

@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from posts.models import Post
+from posts.models import Post, PostLike, PostComment
 
 # Create your views here.
 def index(request):
@@ -11,6 +11,17 @@ def index(request):
 
 def post_detail(request, id):
     post = Post.objects.get(id = id)
+    if request.method == "POST":
+        if 'like' in request.POST:
+            try:
+                like = PostLike.objects.get(user = request.user, post = post)
+                like.delete()
+            except:
+                PostLike.objects.create(user = request.user, post = post)
+        if 'comment' in request.POST:
+            text = request.POST.get('text')
+            comment = PostComment.objects.create(user = request.user, post = post, text = text)
+            return redirect('post_detail', post.id)
     context = {
         'post' : post,
     }
