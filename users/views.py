@@ -34,3 +34,10 @@ def user_login(request):
         login(request, user)
         return redirect('index')
     return render(request, 'login.html')
+
+def user_detail(request, id):
+    user = User.objects.get(id = id)
+    context = {
+        'user' : user,
+    }
+    return render(request, 'user_detail.html', context)

@@ -13,39 +13,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
 </head>
 <body>
-    
-    <nav class="navbar navbar-expand-lg bg-light">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="{% url 'index' %}">Facebook</a>
-          <form class="d-flex" role="search">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-primary" type="submit">Search</button>
-          </form>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'index' %}">Главная</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="video.html">Видео</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="marketplace.html">Маркет</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Сообщества</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Мой аккаунт</a>
-              </li>
-            </ul>
-            
-          </div>
-        </div>
-      </nav>
+  {% include 'include/header.html' %}
       <div class="main bg-light comment_block">
         <div class="">
             <div class="card" style="width: 50rem;">
@@ -70,16 +38,21 @@
                 </div>
               </div>
               {% for comment in post.post_comment.all %}
-              <div class="card" style="width: 50rem; max-height: 250px;">
-                <div class="flex_block">
-                <img src="{{ comment.user.profile_image.url }}" class="card-img-top" style="width: 70px; padding: 5px;" alt="...">
-                <h5 class="card-title">{{ comment.user }}</h5>
-              </div>
+              <div class="card mb-4">
                 <div class="card-body">
-                  <p class="card-text">{{ comment.text }}</p>
-                  <p class="card-text">{{ comment.created }}</p>
-                  <a href="#" class="btn btn-primary">Лайк</a>
-                  <a href="#" class="btn btn-primary">Ответить на коментарий</a>
+                  <p>{{ comment.text }}</p>
+      
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex flex-row align-items-center">
+                      <a href="{% url 'user_detail' comment.user.id %}"><img src="{{ comment.user.profile_image.url }}" alt="avatar" style = "border-radius: 30px;" width="25" height="25"/></a>
+                      <a href="{% url 'user_detail' comment.user.id %}" style="text-decoration: none; color:black"><p class="small mb-0 ms-2">{{ comment.user }}</p></a>
+                    </div>
+                    <div class="d-flex flex-row align-items-center">
+                      <p class="small text-muted mb-0">{{ comment.created }}</p>
+                      <i class="far fa-thumbs-up mx-2 fa-xs text-black" style="margin-top: -0.16rem;"></i>
+                      
+                    </div>
+                  </div>
                 </div>
               </div>
               {% endfor %}
