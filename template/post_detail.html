@@ -17,7 +17,11 @@
       <div class="main bg-light comment_block">
         <div class="">
             <div class="card" style="width: 50rem;">
+              {% if post.image %}
                 <img src="{{ post.image.url }}" class="card-img-top" alt="...">
+                {% else %}
+                <img src="http://karpress.uz/wp-content/themes/karpress/assets/img/no_thumb_post.png" class="card-img-top" alt="...">
+                {% endif %}
                 <div class="card-body">
                   <h5 class="card-title">{{ post.title }}</h5>
                   <p class="card-text">{{ post.description }}</p>
@@ -44,7 +48,11 @@
       
                   <div class="d-flex justify-content-between">
                     <div class="d-flex flex-row align-items-center">
+                      {% if comment.user.profile_image %}
                       <a href="{% url 'user_detail' comment.user.id %}"><img src="{{ comment.user.profile_image.url }}" alt="avatar" style = "border-radius: 30px;" width="25" height="25"/></a>
+                      {% else %}
+                      <a href="{% url 'user_detail' comment.user.id %}"><img src="https://hope.be/wp-content/uploads/2015/05/no-user-image.gif" alt="avatar" style = "border-radius: 30px;" width="25" height="25"/></a>
+                      {% endif %}
                       <a href="{% url 'user_detail' comment.user.id %}" style="text-decoration: none; color:black"><p class="small mb-0 ms-2">{{ comment.user }}</p></a>
                     </div>
                     <div class="d-flex flex-row align-items-center">

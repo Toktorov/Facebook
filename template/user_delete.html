@@ -15,29 +15,16 @@
 <body>
   {% include 'include/header.html' %}
       <div class = "container">
-        {% if user.is_authenticated and request.user == post.user %}
+        {% if user.is_authenticated and request.user == user %}
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
-            <div class="mb-3">
-              <label for="exampleInputEmail1" class="form-label">Заголовок</label>
-              <input type="text" class="form-control" value = "{{ post.title }}" name = "title" id="exampleInputEmail1" aria-describedby="emailHelp">
-              <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
-            </div>
-            <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Описание</label>
-                <input type="text" class="form-control" value = "{{ post.description }}" name = "description" id="exampleInputEmail1" aria-describedby="emailHelp">
-                <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
-            </div>
-            <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label">Фотография</label>
-                <input type="file" class="form-control" name = "image" id="exampleInputPassword1">
-            </div>
-    
-            <button type="submit" class="btn btn-success">Обновить</button>
+            
+            <h1>Вы точно хотите удалить аккаунт: {{ user.username }}?</h1>
+            <button type="submit" class="btn btn-danger">Удалить</button>
           </form>
-          {% else %}
+        {% else %}
           <h3>У вас нету прав</h3>
-          {% endif %}
+        {% endif %}
       </div>
       <div class="container">
         <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">

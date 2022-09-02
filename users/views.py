@@ -41,3 +41,37 @@ def user_detail(request, id):
         'user' : user,
     }
     return render(request, 'user_detail.html', context)
+
+def user_update(request, id):
+    user = User.objects.get(id = id)
+    if request.method == "POST":
+        username = request.POST.get('username')
+        last_name = request.POST.get('last_name')
+        first_name = request.POST.get('first_name')
+        email = request.POST.get('email')
+        phone = request.POST.get('phone')
+        profile_image = request.FILES.get('profile_image')
+        user = User.objects.get(id = id)
+        user.username = username 
+        user.last_name = last_name
+        user.first_name = first_name
+        user.email = email 
+        user.phone = phone 
+        user.profile_image = profile_image
+        user.save()
+        return redirect('user_detail', user.id)
+    context = {
+        'user' : user,
+    }
+    return render(request, 'user_update.html', context)
+
+def user_delete(request, id):
+    user = User.objects.get(id = id)
+    if request.method == "POST":
+        user = User.objects.get(id = id)
+        user.delete()
+        return redirect('index')
+    context = {
+        'user' : user,
+    }
+    return render(request, 'user_delete.html', context)

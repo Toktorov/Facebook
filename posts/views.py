@@ -3,7 +3,7 @@ from posts.models import Post, PostLike, PostComment
 
 # Create your views here.
 def index(request):
-    posts = Post.objects.all().order_by("-id")
+    posts = Post.objects.all().order_by("?")
     context = {
         'posts' : posts,
     }

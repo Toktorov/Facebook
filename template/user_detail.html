@@ -19,7 +19,11 @@
           <div class="row row-cols-1 row-cols-sm-2 row-cols-md-1 g-3">
             <div class="top">
               <ul class="info_bar">
+                {% if user.profile_image %}
                 <li class=""><img class="acc-logo" src="{{ user.profile_image.url }}" alt=""></li>
+                {% else %}
+                <li class=""><img class="acc-logo" src="https://hope.be/wp-content/uploads/2015/05/no-user-image.gif" alt=""></li>
+                {% endif %}
                 <li class="info_el"><h5 class="text-5">{{ user.user_posts.all.count }}</h5><p class="text">Публикации</p></li>
                 <li class="info_el"><h5 class="text-5">232</h5><p class="text">Подписчики</p></li>
                 <li class="info_el"><h5 class="text-5">232</h5><p class="text">Подписки</p></li>
@@ -30,7 +34,10 @@
                 <p class="description">На сайте с {{ user.date_joined }}</p>
                 <a href="www.youtube.com" class="info_link">www.youtube.com</a>
               </div>
-              <button class="btn btn-outline-primary">Редактировать профиль</button>
+              {% if user.is_authenticated and request.user == user %}
+              <a href="{% url 'user_update' user.id %}"><button class="btn btn-outline-primary">Редактировать профиль</button></a>
+              <a href="{% url 'user_delete' user.id %}" style="margin-top: 10px;"><button class="btn btn-outline-danger">Удалить профиль</button></a>
+              {% endif %}
             </div>
           </div>
           <div class="row simple_padding row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
@@ -40,7 +47,11 @@
               <div class="col">
                 <div class="card shadow-sm">
                   <a class="post_link" href="{% url 'post_detail' user_post.id %}">
+                  {% if user_post.image %}
                   <img class="bd-placeholder-img card-img-top" width="100%" height="50%" src="{{ user_post.image.url }}" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"></img></a>
+                  {% else %}
+                  <img class="bd-placeholder-img card-img-top" width="100%" height="50%" src="http://karpress.uz/wp-content/themes/karpress/assets/img/no_thumb_post.png" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"></img></a>
+                  {% endif %}
                 </div>
               </div>
               {% endfor %}
