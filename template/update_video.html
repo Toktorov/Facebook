@@ -15,30 +15,23 @@
 <body>
   {% include 'include/header.html' %}
       <div class = "container">
-        {% if user.is_authenticated %}
+        {% if user.is_authenticated and request.user == video.user %}
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="mb-3">
-              <label for="exampleInputEmail1" class="form-label">Заголовок</label>
-              <input type="text" class="form-control" name = "title" id="exampleInputEmail1" aria-describedby="emailHelp">
+              <label for="exampleInputEmail1" class="form-label">Заголовок видео</label>
+              <input type="text" class="form-control" value = "{{ video.title }}" name = "title" id="exampleInputEmail1" aria-describedby="emailHelp">
               <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
             </div>
             <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Описание</label>
-                <input type="text" class="form-control" name = "description" id="exampleInputEmail1" aria-describedby="emailHelp">
+                <label for="exampleInputEmail1" class="form-label">Описание видео</label>
+                <input type="text" class="form-control" value = "{{ video.description }}" name = "description" id="exampleInputEmail1" aria-describedby="emailHelp">
                 <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
             </div>
-            <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label">Фотография</label>
-                <input type="file" class="form-control" name = "image" id="exampleInputPassword1">
-            </div>
-    
-            <button type="submit" class="btn btn-primary">Опубликовать</button>
+            <button type="submit" class="btn btn-success">Обновить</button>
           </form>
           {% else %}
-          <h3>Вы не можете создавать посты. Зарегистрируйтесь пожалуйста</h3>
-          <a href="{% url 'user_login' %}">Войти</a>
-          <a href="{% url 'register' %}">Зарегистрироваться</a>
+          <h3>У вас нету прав</h3>
           {% endif %}
       </div>
       <div class="container">

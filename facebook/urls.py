@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path
 from posts.views import index, post_detail, post_create, post_update, post_delete
 from users.views import register, user_login, user_detail, user_update, user_delete
-from videos.views import index_video
+from videos.views import index_video, create_video, video_detail, update_video, delete_video
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth.views import LogoutView
@@ -36,6 +36,10 @@ urlpatterns = [
     path('account/update/<int:id>', user_update, name = "user_update"),
     path('account/delete/<int:id>', user_delete, name = "user_delete"),
     path('videos/', index_video, name = "index_video"),
+    path('videos/create/', create_video, name = "create_video"),
+    path('video/<int:id>', video_detail, name = "video_detail"),
+    path('video/update/<int:id>', update_video, name = "update_video"),
+    path('video/delete/<int:id>', delete_video, name = "delete_video"),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

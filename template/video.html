@@ -73,16 +73,16 @@
             <div class="card" style="width: 33rem;">
                 <div class="ratio ratio-16x9">
                   <div style="margin: 10px auto;">
-                    <video style="max-width: 526px!important; max-height: 450px;" autoplay="autoplay" controls="controls" preload="preload">
+                    <video style="max-width: 526px!important; max-height: 450px;" controls="controls" preload="preload">
                       <source src="{{ video.video_file.url }}" type="video/mp4"></source>
                     </video>
                   </div>
                 </div>
                 <div class="card-body">
-                  <a href="" style="text-decoration:none; color: black"><h5 class="card-title">{{ video.title|truncatewords:4 }}</h5></a>
-                  <a href="" style="text-decoration:none; color: black"><p class="card-text">{{ video.description|truncatewords:5 }}</p></a>
+                  <a href="{% url 'video_detail' video.id %}" style="text-decoration:none; color: black"><h5 class="card-title">{{ video.title|truncatewords:4 }}</h5></a>
+                  <a href="{% url 'video_detail' video.id %}" style="text-decoration:none; color: black"><p class="card-text">{{ video.description|truncatewords:5 }}</p></a>
                   
-                  <a href="#" class="btn btn-primary">Лайк</a>
+                  <a href="{% url 'video_detail' video.id %}" class="btn btn-primary">Лайк</a>
                   <a href="comment.html" class="btn btn-primary">Коментарии</a>
                   <a href="" class="btn btn-secondary">@{{ video.user }}</a>
                 </div>
