@@ -1,5 +1,6 @@
+from importlib.metadata import requires
 from django.shortcuts import render, redirect
-from users.models import User
+from users.models import User, UserFollower
 from django.contrib.auth import login, authenticate
 
 # Create your views here.
@@ -23,7 +24,7 @@ def register(request):
             return redirect('index')
         else:
             return redirect('register')
-    return render(request, 'register.html')
+    return render(request, 'user/register.html')
 
 def user_login(request):
     if request.method == "POST":
@@ -33,14 +34,27 @@ def user_login(request):
         user = authenticate(username = username, password = password)
         login(request, user)
         return redirect('index')
-    return render(request, 'login.html')
+    return render(request, 'user/login.html')
 
 def user_detail(request, id):
     user = User.objects.get(id = id)
+    follow_status = UserFollower.objects.filter(from_user=request.user, to_user=user).exists()
+    if request.method == "POST":
+        if 'follow' in request.POST:
+            user = User.objects.get(id = id)
+            try:
+                user = UserFollower.objects.get(from_user = request.user, to_user = user)
+                user.delete()
+                user = User.objects.get(id = id)
+                return redirect('user_detail', user.id)
+            except:
+                UserFollower.objects.create(from_user = request.user, to_user = user)
+                return redirect('user_detail', user.id)
     context = {
         'user' : user,
+        'follow_status' : follow_status
     }
-    return render(request, 'user_detail.html', context)
+    return render(request, 'user/user_detail.html', context)
 
 def user_update(request, id):
     user = User.objects.get(id = id)
@@ -63,7 +77,7 @@ def user_update(request, id):
     context = {
         'user' : user,
     }
-    return render(request, 'user_update.html', context)
+    return render(request, 'user/user_update.html', context)
 
 def user_delete(request, id):
     user = User.objects.get(id = id)
@@ -74,4 +88,18 @@ def user_delete(request, id):
     context = {
         'user' : user,
     }
-    return render(request, 'user_delete.html', context)
+    return render(request, 'user/user_delete.html', context)
+
+def user_followers(request, id):
+    user = User.objects.get(id = id)
+    context = {
+        'user' : user
+    }
+    return render(request, 'user/user_followers.html', context)
+
+def user_following(request, id):
+    user = User.objects.get(id = id)
+    context = {
+        'user' : user
+    }
+    return render(request, 'user/user_following.html', context)

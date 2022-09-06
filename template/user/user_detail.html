@@ -25,15 +25,37 @@
                 <li class=""><img class="acc-logo" src="https://hope.be/wp-content/uploads/2015/05/no-user-image.gif" alt=""></li>
                 {% endif %}
                 <li class="info_el"><h5 class="text-5">{{ user.user_posts.all.count }}</h5><p class="text">Публикации</p></li>
-                <li class="info_el"><h5 class="text-5">232</h5><p class="text">Подписчики</p></li>
-                <li class="info_el"><h5 class="text-5">232</h5><p class="text">Подписки</p></li>
+                <li class="info_el"><h5 class="text-5">{{ user.video_comment_user.all.count }}</h5><p class="text">Видео</p></li>
+                <a href="{% url 'user_followers' user.id %}" style="text-decoration: none; color:black;"><li class="info_el"><h5 class="text-5">{{ user.following_user.all.count }}</h5><p class="text">Подписчики</p></li></a>
+                <a href="{% url 'user_following' user.id %}" style="text-decoration: none; color:black;"><li class="info_el"><h5 class="text-5">{{ user.follower_user.all.count }}</h5><p class="text">Подписки</p></li></a>
               </ul>
-              <div class="simple_padding">
+
+              <div  class="simple_padding">
+                <div style="display: flex;">
                 <h2 class="name">{{ user.username }}</h2>
-                <p class="description">{{ user.last_name }} {{ user.first_name }}</p>
-                <p class="description">На сайте с {{ user.date_joined }}</p>
+                {% if user.is_authenticated and request.user != user %}
+                {% if follow_status != True %}
+                  <form method="POST" style="margin-left: 15px;" action="">
+                    {% csrf_token %}
+                    <input type="hidden" name = "follow">
+                    <button class="btn btn-outline-primary">Подписаться</button>
+                  </form>
+                {% else %}
+                <form method="POST" style="margin-left: 15px;" action="">
+                  {% csrf_token %}
+                  <input type="hidden" name = "follow">
+                  <button class="btn btn-outline-danger">Отписаться</button>
+                </form>
+                {% endif %}
+                {% endif %}
+                
+                </div>
+              <p class="description">{{ user.last_name }} {{ user.first_name }}</p>
+                
+                <p  class="description">На сайте с {{ user.date_joined }} </p>
                 <a href="www.youtube.com" class="info_link">www.youtube.com</a>
               </div>
+              
               {% if user.is_authenticated and request.user == user %}
               <a href="{% url 'user_update' user.id %}"><button class="btn btn-outline-primary">Редактировать профиль</button></a>
               <a href="{% url 'user_delete' user.id %}" style="margin-top: 10px;"><button class="btn btn-outline-danger">Удалить профиль</button></a>

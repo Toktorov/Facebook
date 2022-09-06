@@ -7,7 +7,7 @@ def index_video(request):
     context = {
         'videos' : videos,
     }
-    return render(request, 'video.html', context)
+    return render(request, 'video/video.html', context)
 
 def video_detail(request, id):
     video = Video.objects.get(id = id)
@@ -26,7 +26,7 @@ def video_detail(request, id):
     context = {
         'video' : video
     }
-    return render(request, 'video_detail.html', context)
+    return render(request, 'video/video_detail.html', context)
 
 def create_video(request):
     if request.method == "POST":
@@ -36,7 +36,7 @@ def create_video(request):
         Video.objects.create(user = request.user, title = title, description = description, video_file = video)
         return redirect('index_video')
 
-    return render(request, 'create_video.html')
+    return render(request, 'video/create_video.html')
 
 def update_video(request, id):
     video = Video.objects.get(id = id)
@@ -51,7 +51,7 @@ def update_video(request, id):
     context = {
         'video' : video
     }
-    return render(request, 'update_video.html', context)
+    return render(request, 'video/update_video.html', context)
 
 def delete_video(request, id):
     video = Video.objects.get(id = id)
@@ -62,4 +62,4 @@ def delete_video(request, id):
     context = {
         'video' : video
     }
-    return render(request, 'delete_video.html', context)
+    return render(request, 'video/delete_video.html', context)

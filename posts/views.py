@@ -1,9 +1,13 @@
 from django.shortcuts import render, redirect
 from posts.models import Post, PostLike, PostComment
+from django.db.models import Q 
 
 # Create your views here.
 def index(request):
     posts = Post.objects.all().order_by("?")
+    if request.method == "POST":
+        key = request.POST.get('key')
+        posts = Post.objects.filter(Q(title__icontains = key) | Q(description__icontains = key))
     context = {
         'posts' : posts,
     }
@@ -21,11 +25,11 @@ def post_detail(request, id):
         if 'comment' in request.POST:
             text = request.POST.get('text')
             comment = PostComment.objects.create(user = request.user, post = post, text = text)
-            return redirect('post_detail', post.id)
+            return redirect('post/post_detail', post.id)
     context = {
         'post' : post,
     }
-    return render(request, 'post_detail.html', context)
+    return render(request, 'post/post_detail.html', context)
 
 def post_create(request):
     if request.method == "POST":
@@ -34,7 +38,7 @@ def post_create(request):
         image = request.FILES.get('image')
         post = Post.objects.create(user = request.user, title = title, description = description, image = image)
         return redirect('index')
-    return render(request, 'post_create.html')
+    return render(request, 'post/post_create.html')
 
 def post_update(request, id):
     post = Post.objects.get(id = id)
@@ -51,7 +55,7 @@ def post_update(request, id):
     context = {
         'post' : post,
     }
-    return render(request, 'post_update.html', context)
+    return render(request, 'post/post_update.html', context)
 
 def post_delete(request, id):
     post = Post.objects.get(id = id)
@@ -62,4 +66,4 @@ def post_delete(request, id):
     context = {
         'post' : post
     }
-    return render(request, 'post_delete.html', context)
+    return render(request, 'post/post_delete.html', context)
